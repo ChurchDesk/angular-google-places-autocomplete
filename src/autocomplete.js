@@ -58,6 +58,13 @@ angular.module('google.places', [])
                         $scope.predictions = [];
                         $scope.input = element;
                         $scope.options = $scope.options || {};
+                        if($scope.customPlaces && $scope.customPlaces.then) {
+                          $scope.customPlaces.then(function(response) {
+                            $scope.additionalPlaces = formatCustomPlaces(response);
+                          });
+                        } else if ($scope.customPlaces instanceof Array) {
+                         $scope.additionalPlaces = formatCustomPlaces($scope.customPlaces);
+                        }
                         $scope.additionalPlaces = formatCustomPlaces($scope.customPlaces);
                         initAutocompleteDrawer();
                         initEvents();
@@ -71,8 +78,8 @@ angular.module('google.places', [])
                       (places || []).forEach(function (item) {
                         var title = item.title ? item.title + ', ' : '';
 
-                        var street = (item.address.street + " " + item.address_street_number).trim();
-                        var city = (item.address.zipcode + " " + item.address.city).trim();
+                        var street = [item.address.street, item.address_street_number].join(' ').trim();
+                        var city = [item.address.zipcode, item.address.city].join(' ').trim();
                         var addressArray = [street, city, item.address.country];
 
                         output.push({
