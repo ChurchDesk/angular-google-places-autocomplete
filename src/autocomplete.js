@@ -110,12 +110,8 @@ angular.module('google.places', [])
                           ],
                           geometry: {
                             location: {
-                              lat: function () {
-                                return item.location.latitude;
-                              },
-                              lng: function () {
-                                return item.location.longitude;
-                              }
+                              lat: item.location.latitude,
+                              lng: item.location.longitude
                             }
                           },
                           icon: item.icon,
