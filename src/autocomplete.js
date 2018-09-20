@@ -42,6 +42,9 @@ angular.module('google.places', [])
                 },
                 controller: ['$scope', function ($scope) {}],
                 link: function ($scope, element, attrs, controller) {
+
+                    var sessionToken = new google.maps.places.AutocompleteSessionToken();
+
                     var keymap = {
                             tab: 9,
                             enter: 13,
@@ -232,7 +235,7 @@ angular.module('google.places', [])
                                 });
                             });
                         } else {
-                            placesService.getDetails({ placeId: prediction.place_id }, function (place, status) {
+                            placesService.getDetails({ placeId: prediction.place_id, sessionToken: sessionToken }, function (place, status) {
                                 if (status == google.maps.places.PlacesServiceStatus.OK) {
                                     $scope.$apply(function () {
                                         $scope.model = place;
@@ -255,7 +258,7 @@ angular.module('google.places', [])
 
                         $scope.query = viewValue;
 
-                        request = angular.extend({ input: viewValue }, $scope.options);
+                        request = angular.extend({ input: viewValue, sessionToken: sessionToken }, $scope.options);
                         autocompleteService.getPlacePredictions(request, function (predictions, status) {
                             $scope.$apply(function () {
                                 var customPlacePredictions;
