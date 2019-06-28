@@ -293,7 +293,9 @@ angular.module('google.places', [])
                         if (isString(modelValue)) {
                             viewValue = modelValue;
                         } else if (isObject(modelValue)) {
-                            viewValue = modelValue.formatted_address;
+                            var shouldIncludeName = modelValue.address && modelValue.name && modelValue.address.toLowerCase().indexOf(modelValue.name.toLowerCase()) < 0;
+                            var name = shouldIncludeName ? modelValue.name + ", " : "";
+                            viewValue = name + modelValue.formatted_address;
                         }
 
                         return viewValue;
