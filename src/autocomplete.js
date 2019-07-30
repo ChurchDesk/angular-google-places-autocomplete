@@ -207,10 +207,6 @@ angular.module('google.places', [])
                             return;
                         }
 
-                        if ($scope.forceSelection) {
-                            $scope.selected = ($scope.selected === -1) ? 0 : $scope.selected;
-                        }
-
                         $scope.$digest();
 
                         $scope.$apply(function () {
