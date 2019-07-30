@@ -206,6 +206,9 @@ angular.module('google.places', [])
                         if ($scope.predictions.length === 0) {
                             return;
                         }
+                        if ($scope.forceSelection && $scope.selected === -1) {
+                            $scope.model = null;
+                        }
 
                         $scope.$digest();
 
@@ -286,7 +289,7 @@ angular.module('google.places', [])
                     function format(modelValue) {
                         var viewValue = "";
 
-                        if (!$scope.forceSelection && isString(modelValue)) {
+                        if (isString(modelValue)) {
                             viewValue = modelValue;
                         } else if (isObject(modelValue)) {
                             var shouldIncludeName = isString(modelValue.formatted_address) && isString(modelValue.name) && toLower(modelValue.formatted_address).indexOf(toLower(modelValue.name)) < 0;
