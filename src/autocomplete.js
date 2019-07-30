@@ -203,9 +203,7 @@ angular.module('google.places', [])
                     }
 
                     function onBlur(event) {
-                        const noResults = $scope.predictions.length === 0;
-                        const noValueSelected = $scope.forceSelection && $scope.selected === -1;
-                        if (noResults || noValueSelected) {
+                        if ($scope.predictions.length === 0) {
                             return;
                         }
 
@@ -252,7 +250,7 @@ angular.module('google.places', [])
                     function parse(viewValue) {
                         var request;
 
-                        if (!(viewValue && isString(viewValue))) return viewValue;
+                        if (!(isString(viewValue))) return viewValue;
 
                         $scope.query = viewValue;
 
@@ -288,7 +286,7 @@ angular.module('google.places', [])
                     function format(modelValue) {
                         var viewValue = "";
 
-                        if (isString(modelValue)) {
+                        if (!$scope.forceSelection && isString(modelValue)) {
                             viewValue = modelValue;
                         } else if (isObject(modelValue)) {
                             var shouldIncludeName = isString(modelValue.formatted_address) && isString(modelValue.name) && toLower(modelValue.formatted_address).indexOf(toLower(modelValue.name)) < 0;
@@ -374,11 +372,11 @@ angular.module('google.places', [])
                     }
 
                     function isString(val) {
-                        return Object.prototype.toString.call(val) == '[object String]';
+                        return val && Object.prototype.toString.call(val) == '[object String]';
                     }
 
                     function isObject(val) {
-                        return Object.prototype.toString.call(val) == '[object Object]';
+                        return val && Object.prototype.toString.call(val) == '[object Object]';
                     }
 
                     function indexOf(array, item) {
