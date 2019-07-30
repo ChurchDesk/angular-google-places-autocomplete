@@ -199,11 +199,16 @@ angular.module('google.places', [])
                     }
 
                     function onBlur(event) {
-                        if ($scope.predictions.length === 0) {
-                            return;
-                        }
                         if ($scope.forceSelection && $scope.selected === -1) {
+                            // If force-selection mode is on and none of the predicted values was selected,
+                            // clear the stored values and re-render the contents of the input component
                             $scope.model = null;
+                            controller.$viewValue = null;
+                            render();
+                        }
+
+                        if ($scope.predictions.length === 0) {
+                           return;
                         }
 
                         $scope.$digest();
