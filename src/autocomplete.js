@@ -183,10 +183,6 @@ angular.module('google.places', [])
                             $scope.active = ($scope.active ? $scope.active : $scope.predictions.length) - 1;
                             $scope.$digest();
                         } else if (event.which === keymap.tab || event.which === keymap.enter) {
-                            if ($scope.forceSelection) {
-                                $scope.active = ($scope.active === -1) ? 0 : $scope.active;
-                            }
-
                             $scope.$apply(function () {
                                 $scope.selected = $scope.active;
 
@@ -208,8 +204,6 @@ angular.module('google.places', [])
                         }
                         if ($scope.forceSelection && $scope.selected === -1) {
                             $scope.model = null;
-                            controller.$viewValue = null;
-                            controller.$modelValue = null;
                         }
 
                         $scope.$digest();
@@ -255,7 +249,7 @@ angular.module('google.places', [])
                     function parse(viewValue) {
                         var request;
 
-                        if (!(isString(viewValue))) return viewValue;
+                        if (!isString(viewValue)) return viewValue;
 
                         $scope.query = viewValue;
 
@@ -291,7 +285,7 @@ angular.module('google.places', [])
                     function format(modelValue) {
                         var viewValue = "";
 
-                        if (isString(modelValue)) {
+                        if (!$scope.forceSelection && isString(modelValue)) {
                             viewValue = modelValue;
                         } else if (isObject(modelValue)) {
                             var shouldIncludeName = isString(modelValue.formatted_address) && isString(modelValue.name) && toLower(modelValue.formatted_address).indexOf(toLower(modelValue.name)) < 0;
