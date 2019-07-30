@@ -203,12 +203,10 @@ angular.module('google.places', [])
                     }
 
                     function onBlur(event) {
-                        if ($scope.predictions.length === 0) {
+                        const noResults = $scope.predictions.length === 0;
+                        const noValueSelected = $scope.forceSelection && $scope.selected === -1;
+                        if (noResults || noValueSelected) {
                             return;
-                        }
-
-                        if ($scope.forceSelection && $scope.selected === -1) {
-                            controller.$modelValue = null;
                         }
 
                         $scope.$digest();
