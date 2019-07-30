@@ -208,6 +208,8 @@ angular.module('google.places', [])
                         }
                         if ($scope.forceSelection && $scope.selected === -1) {
                             $scope.model = null;
+                            controller.$viewValue = null;
+                            controller.$modelValue = null;
                         }
 
                         $scope.$digest();
