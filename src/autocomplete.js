@@ -199,7 +199,7 @@ angular.module('google.places', [])
                     }
 
                     function onBlur(event) {
-                        if ($scope.forceSelection && $scope.selected === -1) {
+                        if ($scope.forceSelection && !$scope.isPlaceSelected) {
                             // If force-selection mode is on and none of the predicted values was selected,
                             // clear the stored values and re-render the contents of the input component
                             $scope.model = null;
@@ -230,6 +230,7 @@ angular.module('google.places', [])
                           $timeout(function () {
                             $scope.$apply(function () {
                                 $scope.model = prediction.place;
+                                $scope.isPlaceSelected = true;
                                 $scope.$emit('g-places-autocomplete:select', prediction.place);
                                     controller.$viewChangeListeners.forEach(function (fn) { fn(); });
                                 });
@@ -239,6 +240,7 @@ angular.module('google.places', [])
                                 if (status == google.maps.places.PlacesServiceStatus.OK) {
                                     $scope.$apply(function () {
                                         $scope.model = place;
+                                        $scope.isPlaceSelected = true;
                                         $scope.$emit('g-places-autocomplete:select', place);
                                         $timeout(function () {
                                             controller.$viewChangeListeners.forEach(function (fn) { fn(); });
@@ -252,6 +254,9 @@ angular.module('google.places', [])
                     }
 
                     function parse(viewValue) {
+                        // Reset selected value flag
+                        $scope.isPlaceSelected = false;
+
                         var request;
 
                         if (!isString(viewValue)) return viewValue;
