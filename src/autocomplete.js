@@ -68,6 +68,7 @@ angular.module('google.places', [])
                         } else if ($scope.customPlaces instanceof Array) {
                          $scope.additionalPlaces = formatCustomPlaces($scope.customPlaces);
                         }
+                        $scope.isPlaceSelected = isObject($scope.model);
                         initAutocompleteDrawer();
                         initEvents();
                         initNgModelController();
